@@ -13,23 +13,23 @@
   <meta name="theme-color" content="#4CAF50"> 
 
   <style>
-    body {font-family:'Segoe UI',sans-serif;margin:0;padding:20px;display:flex;justify-content:center;background:linear-gradient(to bottom right,#f0f4f8,#d9e2ec);color:#000;transition:background 0.4s,color 0.4s;}
+    body {font-family:'Segoe UI',sans-serif;margin:0;padding:20px;display:flex;justify-content:center;background:linear-gradient(to bottom right,#f0f4f8,#d9e2ec);color:#000;transition:background 0.4s ease, color 0.4s ease;}
     body.dark{background:linear-gradient(to bottom right,#1e1e1e,#2c2c2c);color:#fff;}
-    .container{width:95%;max-width:720px;background:#fff;padding:25px 30px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.12); position: relative;}
+    .container{width:95%;max-width:720px;background:#fff;padding:25px 30px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.12); position: relative; transition: background 0.4s;}
     body.dark .container{background:#2a2a2a;box-shadow:0 10px 30px rgba(0,0,0,0.6);}
     h2{text-align:center;margin-top:0;}
     .language-select{text-align:right;margin-bottom:15px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;}
-    details{margin:15px 0;border-radius:12px;padding:12px;background:#f9fafc;box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+    details{margin:15px 0;border-radius:12px;padding:12px;background:#f9fafc;box-shadow:0 2px 8px rgba(0,0,0,0.08); transition: background 0.4s;}
     body.dark details{background:#333;color:#fff;}
     details summary{font-weight:600;font-size:16px;cursor:pointer;outline:none;}
     .input-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center;}
     .input-row input,.input-row select{flex:1;padding:10px 12px;border:1px solid #ccd6dd;border-radius:10px;font-size:14px;background:#fff;}
     body.dark .input-row input,body.dark .input-row select{background:#444;color:#fff;border-color:#666;}
-    button{padding:10px 18px;margin:5px 5px 5px 0;cursor:pointer;border:none;border-radius:12px;background:#4CAF50;color:white;font-weight:600;font-size:15px;}
+    button{padding:10px 18px;margin:5px 5px 5px 0;cursor:pointer;border:none;border-radius:12px;background:#4CAF50;color:white;font-weight:600;font-size:15px; transition: 0.2s;}
     button:hover{background:#45a049;}
     button.delete{background:#e74c3c;}
     button.delete:hover{background:#c0392b;}
-    #result{margin-top:20px;padding:20px;border-radius:16px;background:#e8f5e9;border:1px solid #a5d6a7;font-weight:500;line-height:1.9;}
+    #result{margin-top:20px;padding:20px;border-radius:16px;background:#e8f5e9;border:1px solid #a5d6a7;font-weight:500;line-height:1.9; transition: 0.4s;}
     body.dark #result{background:#3a3a3a;border:1px solid #666;color:#fff;}
     #versionPanel{position:fixed;bottom:10px;left:10px;padding:6px 10px;background:rgba(0,0,0,0.7);color:#fff;font-size:11px;border-radius:6px;z-index:9999;}
 
@@ -47,7 +47,7 @@
     }
 
     #tutorialOverlay {
-      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); 
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); 
       z-index:10001; align-items:center; justify-content:center; padding:20px;
     }
     #tutorialBox { background:#fff; width:100%; max-width:600px; border-radius:20px; overflow:hidden; position:relative; }
@@ -82,12 +82,12 @@
     <details> 
       <summary id="labelLabor">ค่าแรง &amp; ค่าใช้จ่าย</summary> 
       <div class="input-row"> 
-        <input type="number" id="workers" placeholder="จำนวนคน" oninput="calculate()"> 
-        <input type="number" id="wage" placeholder="ค่าแรงต่อคน" oninput="calculate()"> 
+        <input type="number" inputmode="decimal" id="workers" placeholder="จำนวนคน" oninput="calculate()"> 
+        <input type="number" inputmode="decimal" id="wage" placeholder="ค่าแรงต่อคน" oninput="calculate()"> 
       </div> 
       <div class="input-row"> 
-        <input type="number" id="water" placeholder="ค่าน้ำ" oninput="calculate()"> 
-        <input type="number" id="electricity" placeholder="ค่าไฟ" oninput="calculate()"> 
+        <input type="number" inputmode="decimal" id="water" placeholder="ค่าน้ำ" oninput="calculate()"> 
+        <input type="number" inputmode="decimal" id="electricity" placeholder="ค่าไฟ" oninput="calculate()"> 
       </div> 
     </details> 
 
@@ -99,13 +99,13 @@
     <div id="result"></div> 
   </div> 
 
-  <div id="versionPanel">v2.2.1</div> 
+  <div id="versionPanel">v2.2.2</div> 
 
   <div id="tutorialOverlay" onclick="handleOverlayClick(event)">
     <div id="tutorialBox">
       <span class="close-modal" onclick="closeTutorial()">×</span>
       <div class="video-container" id="vidContainer">
-        <video id="tutorialVideo" controls playsinline preload="metadata" poster="images/tutorial-placeholder.jpg">
+        <video id="tutorialVideo" controls playsinline preload="metadata">
           <source src="videos/tutorial.mp4" type="video/mp4">
           <source src="videos/copy_D1A6D274-8E5F-4A80-B1B5-B1C85BBC90D2.mov" type="video/quicktime">
           <p>Your browser does not support the video tag.</p>
@@ -140,6 +140,29 @@
       }
     };
 
+    // --- THEME LOGIC (AUTO & INSTANT) ---
+    function applySystemTheme() {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const lang = document.getElementById("langSelect").value;
+      const t = texts[lang];
+
+      if (isDark) {
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+      }
+      document.getElementById("themeBtn").textContent = t.autoMode;
+    }
+
+    // Monitor system theme changes live
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      applySystemTheme();
+    });
+
+    function toggleDarkMode() {
+      applySystemTheme(); // Sync back to system if clicked
+    }
+
     function formatMoney(amount) {
       const lang = document.getElementById("langSelect").value;
       const t = texts[lang];
@@ -169,34 +192,8 @@
         row.children[3].placeholder = t.matProfit;
         if (row.children[4]) row.children[4].textContent = t.deleteBtn;
       });
-      updateThemeButton();
+      applySystemTheme();
       calculate();
-    }
-
-    function toggleDarkMode() {
-      const saved = localStorage.getItem("theme");
-      if (saved === "dark") localStorage.setItem("theme", "light");
-      else if (saved === "light") localStorage.removeItem("theme");
-      else localStorage.setItem("theme", "dark");
-      updateThemeButton();
-    }
-
-    function updateThemeButton() {
-      const lang = document.getElementById("langSelect").value;
-      const t = texts[lang];
-      const saved = localStorage.getItem("theme");
-      if (saved === "dark") {
-        document.body.classList.add("dark");
-        document.getElementById("themeBtn").textContent = t.lightMode;
-      } else if (saved === "light") {
-        document.body.classList.remove("dark");
-        document.getElementById("themeBtn").textContent = t.darkMode;
-      } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) document.body.classList.add('dark');
-        else document.body.classList.remove('dark');
-        document.getElementById("themeBtn").textContent = t.autoMode;
-      }
     }
 
     function addMaterial(name="", qty="", cost="", profit="") {
@@ -207,9 +204,9 @@
       div.id = "material-" + materialCount;
       div.innerHTML = `
         <input type="text" placeholder="${t.matName}" value="${name}" style="flex:2" oninput="saveData()">
-        <input type="text" placeholder="${t.matQty}" value="${qty}" oninput="calculate()">
-        <input type="number" placeholder="${t.matCost}" value="${cost}" oninput="calculate()">
-        <input type="number" placeholder="${t.matProfit}" value="${profit}" oninput="calculate()">
+        <input type="text" inputmode="decimal" placeholder="${t.matQty}" value="${qty}" oninput="calculate()">
+        <input type="number" inputmode="decimal" placeholder="${t.matCost}" value="${cost}" oninput="calculate()">
+        <input type="number" inputmode="decimal" placeholder="${t.matProfit}" value="${profit}" oninput="calculate()">
         <button class="delete" onclick="deleteMaterial(${materialCount})">${t.deleteBtn}</button>
       `;
       document.getElementById("materials").appendChild(div);
@@ -235,9 +232,7 @@
         const qtyVal = parseFloat(row.children[1].value) || (row.children[1].value !== "" ? 1 : 0);
         const costVal = parseFloat(row.children[2].value) || 0;
         const profitVal = parseFloat(row.children[3].value) || 0;
-        
         if (qtyVal > 0 || costVal > 0 || profitVal > 0) hasData = true;
-        
         materialCostTotal += qtyVal * costVal;
         profitTotal += qtyVal * profitVal;
       });
@@ -259,7 +254,6 @@
       document.getElementById("result").innerHTML = hasData
         ? lines.join("<br>") + `<br><br><strong style="font-size:1.4em;color:#4CAF50;">${t.sale}: ${formatMoney(sellingPrice)}</strong>`
         : `<span style="color:#999;">${t.empty}</span>`;
-      
       saveData();
     }
 
@@ -285,10 +279,11 @@
 
     function loadData() {
       const saved = localStorage.getItem("calcData");
-      if (!saved) { addMaterial(); return; }
+      const lang = localStorage.getItem("lang") || "th";
+      document.getElementById("langSelect").value = lang;
+      
+      if (!saved) { addMaterial(); switchLang(); return; }
       const data = JSON.parse(saved);
-      document.getElementById("langSelect").value = data.lang || "th";
-      switchLang();
       document.getElementById("workers").value = data.workers || "";
       document.getElementById("wage").value = data.wage || "";
       document.getElementById("water").value = data.water || "";
@@ -296,6 +291,7 @@
       document.getElementById("materials").innerHTML = "";
       (data.materials || []).forEach(m => addMaterial(m.name, m.qty, m.cost, m.profit));
       if (document.querySelectorAll("#materials .input-row").length === 0) addMaterial();
+      switchLang();
     }
 
     function resetAll() {
@@ -316,23 +312,16 @@
     }
 
     function handleOverlayClick(e) {
-      if (e.target.id === "tutorialOverlay") {
-        closeTutorial();
-      }
+      if (e.target.id === "tutorialOverlay") closeTutorial();
     }
 
-    // Video Error Handling Fix
-    document.getElementById('tutorialVideo').addEventListener('error', function(e) {
+    document.getElementById('tutorialVideo').addEventListener('error', function() {
       const container = document.getElementById('vidContainer');
       const lang = document.getElementById("langSelect").value;
-      container.innerHTML = `
-        <div style="padding: 40px; text-align: center; color: #ff6b6b; font-weight: bold;">
-          ⚠️ ${texts[lang].vidErr}
-        </div>
-      `;
+      container.innerHTML = `<div style="padding:40px;text-align:center;color:#ff6b6b;">⚠️ ${texts[lang].vidErr}</div>`;
     }, true);
 
-    window.onload = () => { loadData(); updateThemeButton(); calculate(); };
+    window.onload = () => { loadData(); applySystemTheme(); calculate(); };
   </script>
 </body>
 </html>
