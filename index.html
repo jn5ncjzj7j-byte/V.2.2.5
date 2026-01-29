@@ -18,12 +18,11 @@
       --text-dark: #eee;
     }
 
-    /* --- Base Styles --- */
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0; padding: 20px; display: flex; justify-content: center;
       min-height: 100vh; background: var(--bg-light); color: var(--text-light);
-      transition: background 0.5s ease, color 0.5s;
+      transition: background 0.4s ease, color 0.4s;
     }
     body.dark { background: var(--bg-dark); color: var(--text-dark); }
 
@@ -32,63 +31,33 @@
       background: var(--card-light); backdrop-filter: blur(15px);
       border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: var(--shadow); position: relative; 
-      transition: background 0.5s ease;
+      transition: background 0.4s ease;
     }
     body.dark .container { background: var(--card-dark); border-color: rgba(255,255,255,0.05); }
 
-    /* --- Animations --- */
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideOut { from { opacity: 1; transform: scale(1); max-height: 100px; } to { opacity: 0; transform: scale(0.9); max-height: 0; padding: 0; margin: 0; overflow: hidden; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    @keyframes slideOut {
-      from { opacity: 1; transform: scale(1); max-height: 100px; margin-bottom: 12px; }
-      to { opacity: 0; transform: scale(0.9); max-height: 0; margin-bottom: 0; padding: 0; overflow: hidden; }
-    }
+    .input-row { display: flex; flex-wrap: nowrap; gap: 10px; padding: 0 18px 12px; align-items: center; animation: slideIn 0.3s ease forwards; }
+    .input-row.removing { animation: slideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
+    .row-number { font-weight: bold; min-width: 25px; font-size: 18px; color: var(--primary); }
 
-    .input-row { 
-      display: flex; flex-wrap: nowrap; gap: 10px; 
-      padding: 0 18px 12px; align-items: center;
-      animation: slideIn 0.3s ease forwards;
-    }
-
-    .input-row.removing {
-      animation: slideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      pointer-events: none;
-    }
-
-    .row-number {
-      font-weight: bold; min-width: 25px; font-size: 18px; color: var(--primary);
-    }
-
-    input {
-      min-width: 0; flex: 1; padding: 12px 10px; 
-      border: 2px solid transparent; border-radius: 12px;
-      background: rgba(255,255,255,0.9); font-size: 14px; 
-      outline: none; transition: 0.3s;
-    }
+    input { min-width: 0; flex: 1; padding: 12px 10px; border: 2px solid transparent; border-radius: 12px; background: rgba(255,255,255,0.9); font-size: 14px; outline: none; transition: 0.3s; }
     .mat-name-input { flex: 2.5 !important; }
-
     body.dark input { background: #3d3d3d; color: white; border-color: #444; }
     input:focus { border-color: var(--primary); background: #fff; }
     body.dark input:focus { background: #444; }
 
-    /* --- Buttons --- */
-    button { 
-      padding: 12px 20px; border: none; border-radius: 15px; 
-      background: var(--primary); color: white; font-weight: 700; 
-      cursor: pointer; transition: all 0.3s;
-      display: flex; align-items: center; justify-content: center;
-    }
+    button { padding: 12px 20px; border: none; border-radius: 15px; background: var(--primary); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
     button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3); }
-    
-    button.delete { background: #ff4757; width: 40px; height: 40px; flex-shrink: 0; padding: 0; border-radius: 10px; }
-    button.delete:hover { background: #ff6b81; transform: scale(1.05); }
-
+    button.delete { background: #ff4757; width: 40px; height: 40px; padding: 0; border-radius: 10px; flex-shrink: 0; }
     #resetBtn { padding: 8px 16px; font-size: 14px; background: var(--primary); opacity: 0.9; }
 
-    /* --- Layout Components --- */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+    .modal-content { background: white; width: 90%; max-width: 600px; padding: 25px; border-radius: 24px; position: relative; text-align: center; }
+    body.dark .modal-content { background: #2a2a2a; color: white; }
+
     .header-controls { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 20px; }
     .lang-select-wrapper { background: rgba(0,0,0,0.05); padding: 5px 10px; border-radius: 12px; display: flex; align-items: center; }
     body.dark .lang-select-wrapper { background: rgba(255,255,255,0.1); }
@@ -100,14 +69,13 @@
     details { margin-bottom: 15px; border-radius: 18px; background: rgba(0,0,0,0.03); overflow: hidden; }
     body.dark details { background: rgba(255,255,255,0.05); }
     summary { padding: 18px; list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 700; }
-    .summary-left { display: flex; align-items: center; }
     .arrow-icon { font-size: 20px; color: var(--primary); margin-right: 12px; transition: 0.4s; }
     details[open] .arrow-icon { transform: rotate(90deg); }
 
     #result { margin-top: 25px; padding: 25px; border-radius: 22px; background: #e8f5e9; transition: 0.3s; }
     body.dark #result { background: #2e2e2e; color: #81c784; }
 
-    #loader { position: fixed; inset: 0; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s; }
+    #loader { position: fixed; inset: 0; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s; }
     body.dark #loader { background: #121212; }
     .loader-hidden { opacity: 0; visibility: hidden; }
   </style>
@@ -116,15 +84,23 @@
 
   <div id="loader">
     <div style="width: 50px; height: 50px; border: 5px solid rgba(76, 175, 80, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite;"></div>
-    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+  </div>
+
+  <div class="modal-overlay" id="tutorialModal" onclick="closeTutorial()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 id="tutTitle"></h3>
+      <video id="tutVideo" controls playsinline preload="none" style="width: 100%; border-radius: 15px; background: #000; margin-bottom: 15px;">
+        <source src="videos/tutorial.mp4" type="video/mp4">
+      </video>
+      <button onclick="closeTutorial()" style="width: 100%;">Close</button>
+    </div>
   </div>
 
   <div class="container">
-    <button class="tutorial-btn" onclick="alert('Tutorial coming soon!')">?</button>
-    
+    <button class="tutorial-btn" onclick="openTutorial()">?</button>
     <div class="header-controls">
       <div class="lang-select-wrapper">
-        <span style="margin-right: 5px;">🌐</span>
+        <span>🌐</span>
         <select id="langSelect" onchange="switchLang()" style="background:transparent; border:none; outline:none; cursor:pointer; font-weight:bold; color: inherit;">
           <option value="th">ไทย</option>
           <option value="en">English</option>
@@ -137,7 +113,7 @@
 
     <details open>
       <summary>
-        <div class="summary-left">
+        <div style="display:flex; align-items:center;">
           <span class="arrow-icon">➤</span><span id="labelMaterial"></span>
         </div>
         <button onclick="resetAll()" id="resetBtn"></button>
@@ -150,7 +126,7 @@
 
     <details>
       <summary>
-        <div class="summary-left">
+        <div style="display:flex; align-items:center;">
           <span class="arrow-icon">➤</span><span id="labelLabor"></span>
         </div>
       </summary>
@@ -177,50 +153,46 @@
 
   <script>
     const texts = {
-      th: {
-        title: "คำนวณต้นทุน", materials: "รายการวัตถุดิบ", laborSection: "ค่าแรง & ค่าใช้จ่าย",
-        matName: "ชื่อวัตถุดิบ", matQty: "จำนวน", matCost: "ราคา/หน่วย", matProfit: "กำไร/หน่วย",
-        addMaterial: "＋ เพิ่มรายการ", labor: "ค่าแรงรวม", material: "ต้นทุนวัตถุดิบ", 
-        total: "ต้นทุนสุทธิ", sale: "ราคาขายแนะนำ", calc: "คำนวณต้นทุน ↓", reset: "รีเซ็ต", 
-        darkMode: "🌙 มืด", lightMode: "☀️ สว่าง", autoMode: "🌓 ออโต้", symbol: "฿", symbolBefore: false, empty: "กรุณากรอกข้อมูล", donate: "สนับสนุน"
-      },
-      en: {
-        title: "Cost Calculator", materials: "Material List", laborSection: "Labor & Expenses",
-        matName: "Name", matQty: "Qty", matCost: "Cost", matProfit: "Profit",
-        addMaterial: "＋ Add Item", labor: "Total Labor", material: "Materials", 
-        total: "Net Cost", sale: "Rec. Price", calc: "Calculate ↓", reset: "Reset", 
-        darkMode: "🌙 Dark", lightMode: "☀️ Light", autoMode: "🌓 Auto", symbol: "$", symbolBefore: true, empty: "Enter data", donate: "Donate"
-      }
+      th: { title: "คำนวณต้นทุน", materials: "รายการวัตถุดิบ", laborSection: "ค่าแรง & ค่าใช้จ่าย", matName: "ชื่อวัตถุดิบ", matQty: "จำนวน", matCost: "ราคา/หน่วย", matProfit: "กำไร/หน่วย", addMaterial: "＋ เพิ่มรายการ", labor: "ค่าแรงรวม", material: "ต้นทุนวัตถุดิบ", total: "ต้นทุนสุทธิ", sale: "ราคาขายแนะนำ", calc: "คำนวณต้นทุน ↓", reset: "รีเซ็ต", darkMode: "🌙 มืด", lightMode: "☀️ สว่าง", autoMode: "🌓 ออโต้", symbol: "฿", symbolBefore: false, empty: "กรุณากรอกข้อมูล", donate: "สนับสนุน", tut: "วิธีใช้งาน" },
+      en: { title: "Cost Calculator", materials: "Material List", laborSection: "Labor & Expenses", matName: "Name", matQty: "Qty", matCost: "Cost", matProfit: "Profit", addMaterial: "＋ Add Item", labor: "Total Labor", material: "Materials", total: "Net Cost", sale: "Rec. Price", calc: "Calculate ↓", reset: "Reset", darkMode: "🌙 Dark", lightMode: "☀️ Light", autoMode: "🌓 Auto", symbol: "$", symbolBefore: true, empty: "Enter data", donate: "Donate", tut: "Tutorial" }
     };
 
     let materialIDCounter = 0;
 
+    // Apply theme instantly without refresh
     function applyTheme() {
       const mode = localStorage.getItem("theme") || "auto";
       const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const t = texts[document.getElementById("langSelect").value];
+      const t = texts[document.getElementById("langSelect").value] || texts.th;
+      
       const shouldBeDark = mode === "dark" || (mode === "auto" && isSystemDark);
       document.body.classList.toggle("dark", shouldBeDark);
-      document.getElementById("themeBtn").textContent = (mode === "dark" ? t.darkMode : (mode === "light" ? t.lightMode : t.autoMode));
+      
+      const themeBtn = document.getElementById("themeBtn");
+      if (mode === "dark") themeBtn.textContent = t.darkMode;
+      else if (mode === "light") themeBtn.textContent = t.lightMode;
+      else themeBtn.textContent = t.autoMode;
     }
 
     function toggleDarkMode() {
       const modes = ["auto", "dark", "light"];
       let current = localStorage.getItem("theme") || "auto";
       localStorage.setItem("theme", modes[(modes.indexOf(current) + 1) % modes.length]);
-      applyTheme();
+      applyTheme(); // Immediate update
     }
 
-    // Auto-sync with system theme changes
+    // Auto-sync with system without refresh
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
       if (localStorage.getItem("theme") === "auto") applyTheme();
     });
+
+    function openTutorial() { document.getElementById("tutorialModal").style.display = "flex"; }
+    function closeTutorial() { document.getElementById("tutorialModal").style.display = "none"; document.getElementById("tutVideo").pause(); }
 
     function switchLang() {
       const lang = document.getElementById("langSelect").value;
       const t = texts[lang];
       localStorage.setItem("lang", lang);
-      
       document.getElementById("title").textContent = t.title;
       document.getElementById("labelMaterial").textContent = t.materials;
       document.getElementById("labelLabor").textContent = t.laborSection;
@@ -228,22 +200,9 @@
       document.getElementById("calcBtn").textContent = t.calc;
       document.getElementById("resetBtn").textContent = t.reset;
       document.getElementById("donateText").textContent = t.donate;
-      
-      document.querySelectorAll("#materials .input-row").forEach(row => {
-        row.querySelector(".mat-name-input").placeholder = t.matName;
-        const nums = row.querySelectorAll("input[type='number']");
-        nums[0].placeholder = t.matQty; nums[1].placeholder = t.matCost; nums[2].placeholder = t.matProfit;
-      });
-
+      document.getElementById("tutTitle").textContent = t.tut;
       applyTheme();
       calculate();
-    }
-
-    function updateNumbers() {
-      const rows = document.querySelectorAll("#materials .input-row:not(.removing)");
-      rows.forEach((row, index) => {
-        row.querySelector(".row-number").textContent = (index + 1) + ".";
-      });
     }
 
     function addMaterial(name="", qty="", cost="", profit="") {
@@ -265,17 +224,23 @@
       saveData();
     }
 
-    function deleteMaterial(id) { 
+    function deleteMaterial(id) {
       const row = document.getElementById("material-" + id);
-      if (row) {
-        row.classList.add("removing");
-        setTimeout(() => {
-          row.remove();
-          updateNumbers();
-          saveData(); 
-          calculate();
-        }, 400);
+      if (row) { 
+        row.classList.add("removing"); 
+        setTimeout(() => { 
+          row.remove(); 
+          updateNumbers(); 
+          saveData();
+          calculate(); 
+        }, 400); 
       }
+    }
+
+    function updateNumbers() {
+      document.querySelectorAll("#materials .input-row:not(.removing)").forEach((row, i) => {
+        row.querySelector(".row-number").textContent = (i + 1) + ".";
+      });
     }
 
     function calculate() {
@@ -283,21 +248,20 @@
       const parse = (id) => parseFloat(document.getElementById(id).value) || 0;
       let matTotal = 0, profTotal = 0;
       const rows = document.querySelectorAll("#materials .input-row:not(.removing)");
-      
       rows.forEach(row => {
-        const inputs = row.querySelectorAll("input[type='number']");
-        const q = parseFloat(inputs[0].value) || 0;
-        matTotal += q * (parseFloat(inputs[1].value) || 0);
-        profTotal += q * (parseFloat(inputs[2].value) || 0);
+        const nums = row.querySelectorAll("input[type='number']");
+        const q = parseFloat(nums[0].value) || 0;
+        matTotal += q * (parseFloat(nums[1].value) || 0);
+        profTotal += q * (parseFloat(nums[2].value) || 0);
       });
-
       const labor = parse("workers") * parse("wage");
       const totalCost = labor + parse("water") + parse("electricity") + matTotal;
       const salePrice = totalCost + profTotal;
-      const fmt = (num) => t.symbolBefore ? t.symbol + num.toLocaleString() : num.toLocaleString() + " " + t.symbol;
-
+      const fmt = (n) => t.symbolBefore ? t.symbol + n.toLocaleString() : n.toLocaleString() + " " + t.symbol;
+      
+      const resDiv = document.getElementById("result");
       if (rows.length > 0 || totalCost > 0) {
-        document.getElementById("result").innerHTML = `
+        resDiv.innerHTML = `
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
             <span>${t.labor}:</span> <strong>${fmt(labor)}</strong>
             <span>${t.material}:</span> <strong>${fmt(matTotal)}</strong>
@@ -307,50 +271,57 @@
             <small>${t.sale}</small><br><strong style="font-size:2em; color:var(--primary);">${fmt(salePrice)}</strong>
           </div>`;
       } else {
-        document.getElementById("result").innerHTML = `<center style="opacity:0.5">${t.empty}</center>`;
+        resDiv.innerHTML = `<center style="opacity:0.5">${t.empty}</center>`;
       }
       saveData();
     }
 
     function saveData() {
       const data = {
-        workers: document.getElementById("workers").value, wage: document.getElementById("wage").value,
-        water: document.getElementById("water").value, electricity: document.getElementById("electricity").value,
+        workers: document.getElementById("workers").value, 
+        wage: document.getElementById("wage").value,
+        water: document.getElementById("water").value, 
+        electricity: document.getElementById("electricity").value,
         materials: Array.from(document.querySelectorAll("#materials .input-row:not(.removing)")).map(r => ({
-          name: r.querySelector(".mat-name-input").value, 
-          qty: r.querySelectorAll("input[type='number']")[0].value, 
-          cost: r.querySelectorAll("input[type='number']")[1].value, 
+          name: r.querySelector(".mat-name-input").value,
+          qty: r.querySelectorAll("input[type='number']")[0].value,
+          cost: r.querySelectorAll("input[type='number']")[1].value,
           profit: r.querySelectorAll("input[type='number']")[2].value
         }))
       };
       localStorage.setItem("calcData_v243", JSON.stringify(data));
     }
 
-    function loadData() {
+    function resetAll() { 
+      if(confirm("ต้องการรีเซ็ตข้อมูลทั้งหมดหรือไม่? / Clear all data?")) { 
+        localStorage.clear(); 
+        location.reload(); // Reset needs reload to clear all states
+      } 
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
       const saved = JSON.parse(localStorage.getItem("calcData_v243") || "{}");
       document.getElementById("langSelect").value = localStorage.getItem("lang") || "th";
       document.getElementById("workers").value = saved.workers || "";
       document.getElementById("wage").value = saved.wage || "";
       document.getElementById("water").value = saved.water || "";
       document.getElementById("electricity").value = saved.electricity || "";
+      
       document.getElementById("materials").innerHTML = "";
-      if (saved.materials?.length) saved.materials.forEach(m => addMaterial(m.name, m.qty, m.cost, m.profit));
-      else addMaterial();
-      switchLang();
-    }
+      if (saved.materials?.length) {
+        saved.materials.forEach(m => addMaterial(m.name, m.qty, m.cost, m.profit));
+      } else {
+        addMaterial();
+      }
+      
+      switchLang(); // This calls applyTheme()
 
-    function resetAll() { 
-      if(confirm("ต้องการรีเซ็ตข้อมูลทั้งหมดหรือไม่? / Clear all data?")) { 
-        localStorage.clear(); 
-        location.reload(); 
-      } 
-    }
-
-    window.onload = function() {
-      loadData();
-      applyTheme();
-      setTimeout(() => document.getElementById('loader').classList.add('loader-hidden'), 500);
-    };
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.classList.add('loader-hidden');
+        setTimeout(() => loader.style.display = 'none', 500);
+      }, 300);
+    });
   </script>
 </body>
 </html>
